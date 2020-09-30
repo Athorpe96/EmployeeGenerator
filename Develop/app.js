@@ -11,7 +11,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-const teamMember = [];
+const team = [];
+
+
+
 
 function employeeInfo() {
     inquirer.prompt([
@@ -29,36 +32,9 @@ function employeeInfo() {
         } else if (val.name === "Manager") {
             managerInfo();
         } else if (val.name === "Team Created") {
-            generateHTML(outputPath, render(teamMember));
+            generateHTML(outputPath, render(team));
         };
     });
-};
-
-
-function engineerInfo() {
-    return inquirer.prompt([
-        {
-            message: "What is the engineer's name?",
-            name: "name"
-        },
-        {
-            message: "What is the engineer's id?",
-            name: "id"
-        },
-        {
-            message: "What is the engineer's email?",
-            name: "email"
-        },
-        {
-            message: "What is the engineer's Github username?",
-            name: "github"
-        }
-    ]).then(function (answer) {
-        let engineer = new Engineer(answer.name, answer.id, answer.email, answer.github)
-        teamMember.push(engineer);
-
-        employeeInfo();
-    })
 };
 
 function managerInfo() {
@@ -87,6 +63,32 @@ function managerInfo() {
     })
 };
 
+function engineerInfo() {
+    return inquirer.prompt([
+        {
+            message: "What is the engineer's name?",
+            name: "name"
+        },
+        {
+            message: "What is the engineer's id?",
+            name: "id"
+        },
+        {
+            message: "What is the engineer's email?",
+            name: "email"
+        },
+        {
+            message: "What is the engineer's Github username?",
+            name: "github"
+        }
+    ]).then(function (answer) {
+        let engineer = new Engineer(answer.name, answer.id, answer.email, answer.github)
+        team.push(engineer);
+
+        employeeInfo();
+    })
+};
+
 function internInfo() {
     return inquirer.prompt([
         {
@@ -107,7 +109,7 @@ function internInfo() {
         }
     ]).then(function (answer) {
         let intern = new Intern(answer.name, answer.id, answer.email, answer.school)
-        teamMember.push(intern);
+        team.push(intern);
 
         employeeInfo();
     })
@@ -118,7 +120,7 @@ function generateHTML(fileName, data) {
         if (err) {
             throw err;
         }
-        console.log("All finsihed! Your team info is now created!");
+        console.log("All finished! Your team info is now created!");
     });
 };
 
